@@ -1,0 +1,35 @@
+Mirica Victor 344C1
+
+Date despre tema:
+    Spring boot
+    java 17
+    Postgres 15, Hibernate 5
+    Web app port: 6000
+    Docker: 3333:5432
+    Adminer: 8081
+             System: PostgreSQL
+             Server: db
+             Username: weather_user
+             Password: weather_pass
+             Database: weather
+
+Folosesc flyway pentru db migration deci va exista un tabel extra 'flyway_schema_history' care tine evidenta migrarilor
+
+docker-compose down && docker-compose up --build
+
+Scriptul SQL pentru baza de date se afla in V1_00__init.sql. Pe langa cele trei tabele necesare, in acest script se gasesc
+si trei secvente pentru generarea id-urilor fiecarui tabel.
+
+In application.yml se gasesc proprietatile de configurare ale aplicatiei.
+
+API-ul se gaseste in resources. In cele trei clase se afla metodele necesare pentru fiecare endpoint.
+
+Clasele din directorul service tin business logic-ul din spatele request-urilor.
+
+In directorul repository se afla interfetele care extind JpaRepository pentru fiecare tabel, acestea
+pastreaza datele reprezentate de fiecare tabel.
+
+Directorul model contine clasele care reprezinta entitatile din baza de date.
+
+In directorul dto se afla clasele care reprezinta obiectele care se vor trimite in request-uri si response-uri.
+In subdirectorul mapper se afla clasele care fac maparea intre obiectele din dto si model.

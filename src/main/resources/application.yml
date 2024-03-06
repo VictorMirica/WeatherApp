@@ -1,0 +1,35 @@
+server:
+  port: 6000
+  
+# DB
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:3333/weather}
+    username: ${DB_APP_USER:weather_user}
+    password: ${DB_APP_PASSWORD:weather_pass}
+    hikari:
+      maximum-pool-size: ${DB_CONNECTION_POOL_SIZE:10}
+      max-lifetime: ${DB_CONNECTION_MAX_LIFETIME:1800000}
+      keepalive-time: ${DB_CONNECTION_KEEPALIVE_TIME:0}
+      leak-detection-threshold: ${DB_CONNECTION_LEAK_DETECTION_MS:10000}
+  jpa:
+    hibernate:
+      ddl-auto: ${DB_HIBERNATE_DDL:validate}
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: ${DB_HIBERNATE_JDBC_BATCH_SIZE:5}
+    show-sql: true
+  
+  # Flyway
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    url: ${DB_URL:jdbc:postgresql://localhost:3333/weather}
+    user: ${DB_USER:weather_user}
+    password: ${DB_PASSWORD:weather_pass}
+    placeholders:
+      env.appuser: ${DB_APP_USER:weather_user}
+      env.appuserpass: ${DB_APP_PASSWORD:weather_pass}
+      env.readonly-user: readonly_user
+      env.readonly-password: ${DB_READ_PASSWORD:readonly_pass}

@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+  db:
+    container_name: db
+    image: postgres:15.3
+    ports:
+      - "3333:5432"
+    restart: always
+    environment:
+      POSTGRES_DB: weather
+      POSTGRES_USER: weather_user
+      POSTGRES_PASSWORD: weather_pass
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - web_db_network
+      - adminer_db_network
+
+  web:
+    container_name: web
+    build: .
+    ports:
+      - "6000:6000"
+    environment:
+      - ENVIRONMENT_NAME=local
+      - REGION_NAME=local
+      - DB_URL=jdbc:postgresql://db:5432/weather
+      - DB_APP_USER=weather_user
+      - DB_APP_PASSWORD=weather_pass
+    depends_on:
+      - db
+    networks:
+      - web_db_network
+
+  adminer:
+    container_name: adminer
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - adminer_db_network
+
+volumes:
+  db-data: { }
+
+networks:
+  web_db_network: { }
+  adminer_db_network: { }
